@@ -12,7 +12,7 @@ int main()
     int tc, p1, p2, p3, tmp;
     cin >> tc;
 
-    for(int i = 0; i < tc; ++i)
+    for(int i = 1; i <= tc; ++i)
     {
         cin >> p1 >> p2 >> p3;
         if(p1 > p3)
