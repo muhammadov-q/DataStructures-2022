@@ -19,7 +19,7 @@ int main()
             int height;
             cin >> height;
             if (j == 0) {
-                checker == height;
+                checker = height;
             } else {
                 if (height > checker) {
                     checker = height;
