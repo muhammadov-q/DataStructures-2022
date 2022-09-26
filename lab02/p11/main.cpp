@@ -42,11 +42,9 @@ int sumOfDigits(int num)
 int main()
 {
     iostream::sync_with_stdio(false);
-    for (;;)
+    string name1, name2;
+    while (getline(cin, name1))
     {
-        if (cin.eof()) break;
-        string name1, name2;
-        getline(cin, name1);
         getline(cin, name2);
         int first = sumOfDigits(sumOfLetters(name1));
         int second = sumOfDigits(sumOfLetters(name2));
