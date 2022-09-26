@@ -10,13 +10,16 @@ int sumOfLetters(string name)
     int sum = 0;
     for (auto c : name)
       {
-        if (islower(c))
-        {
-            sum += c - 'a' + 1;
-        }
-        else if (isupper(c))
-        {
-            sum += c - 'A' + 1;
+        if (isalpha(c))
+        { 
+            if (islower(c))
+            {
+                sum += c - 'a' + 1;
+            }
+            else if (isupper(c))
+            {
+                sum += c - 'A' + 1;
+            }
         }
       }
 
@@ -43,12 +46,12 @@ int main()
     {
         if (cin.eof()) break;
         string name1, name2;
-        cin >> name1;
-        cin >> name2;
+        getline(cin, name1);
+        getline(cin, name2);
         int first = sumOfDigits(sumOfLetters(name1));
         int second = sumOfDigits(sumOfLetters(name2));
 
-        cout << fixed <<setprecision(2);
+        cout << fixed << setprecision(2);
         if (first < second)
             cout << (first * 100.0 / second) << " %" <<  "\n";   
         else
