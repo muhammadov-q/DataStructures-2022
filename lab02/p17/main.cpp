@@ -5,12 +5,18 @@ int sz(const C &c) { return static_cast<int>(c.size()); }
 
 using namespace std;
 
-char a[120][120];
-int n, m, ans;
-
-void solve()
+int main()
 {
-    ans = 0;
+    iostream::sync_with_stdio(false);
+    char a[120][120];
+    for (int n, m; cin >> n >> m;)
+    {   
+        for (int i = 0; i < n; i++)
+        {
+            cin >> a[i];
+        }
+        
+    int ans = 0;
     for (int i = 0; i < n; i++)
     {
         bool in = false;
@@ -26,19 +32,6 @@ void solve()
             }
         }
     }
-    printf("%d\n", ans/2);
-}
-
-int main()
-{
-    iostream::sync_with_stdio(false);
-    while(scanf("%d%d", &n, &m) != EOF)
-    {   
-        for (int i = 0; i < n; i++)
-        {
-            scanf("%s", a[i]);
-
-        }
-        solve();
+    cout << ans/2 << endl;
     }
 }
