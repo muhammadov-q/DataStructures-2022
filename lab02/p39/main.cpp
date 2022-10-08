@@ -11,38 +11,47 @@ int main()
 
     for (string line; getline(cin , line);)
     {
-        // reverse(line.begin(), line.end());
-        // cout << line << endl;
-        bool inWord = false;
-        string word;
-        for (int i = 0; i < sz(line); ++i)
+        istringstream sinp(line);
+        bool isFirst = true;
+        for (string word; sinp >> word;)
         {
-            if (!isspace(line[i]) && !inWord)
-            {
-                inWord = true;
-                word += line[i];
-            }
-            else if (!isspace(line[i]))
-            {
-                word += line[i];
-            }
-            else if (isspace(line[i]) && !word.empty())
-            {
-                reverse(word.begin(), word.end());
-                cout << word << line[i];
-                word.clear();
-                inWord = false;
-            }
-            else
-            {
-                cout << line[i]; //space
-            }
-        }
-        if (!word.empty())
-        {
-            reverse(word.begin(), word.end());
-            cout << word;
+            reverse(line.begin(), line.end());
+            cout << (isFirst ? "" : " ") << word;
+            isFirst = false;
         }
         cout << "\n";
+        // reverse(line.begin(), line.end());
+        // cout << line << endl;
+        // bool inWord = false;
+        // string word;
+        // for (int i = 0; i < sz(line); ++i)
+        // {
+        //     if (!isspace(line[i]) && !inWord)
+        //     {
+        //         inWord = true;
+        //         word += line[i];
+        //     }
+        //     else if (!isspace(line[i]))
+        //     {
+        //         word += line[i];
+        //     }
+        //     else if (isspace(line[i]) && !word.empty())
+        //     {
+        //         reverse(word.begin(), word.end());
+        //         cout << word << line[i];
+        //         word.clear();
+        //         inWord = false;
+        //     }
+        //     else
+        //     {
+        //         cout << line[i]; //space
+        //     }
+        // }
+        // if (!word.empty())
+        // {
+        //     reverse(word.begin(), word.end());
+        //     cout << word;
+        // }
+        // cout << "\n";
     }
 }
