@@ -15,7 +15,7 @@ int main()
         bool isFirst = true;
         for (string word; sinp >> word;)
         {
-            reverse(line.begin(), line.end());
+            reverse(word.begin(), word.end());
             cout << (isFirst ? "" : " ") << word;
             isFirst = false;
         }
