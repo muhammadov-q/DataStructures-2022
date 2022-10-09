@@ -9,9 +9,9 @@ int main()
 {
     iostream::sync_with_stdio(false);
 
-        int numOfFriends; 
-        cin >> numOfFriends;
-
+    int T = 1;
+    for (int numOfFriends; cin >> numOfFriends;)
+    { 
         //string names[numOfFriends];
         vector<string> names(numOfFriends);
         //int money[numOfFriends];
@@ -36,11 +36,10 @@ int main()
             int numOfPeople;
             cin >> numOfPeople;
 
-            if (moneygiven == 0 && numOfPeople == 0) continue;
+            if (numOfPeople == 0) continue;
             
             int moneyPerPerson = moneygiven / numOfPeople;
             int remainder = moneygiven % numOfPeople;
-
             for (int j = 0; j < numOfPeople; j++)
             {
                 string reciever;
@@ -64,9 +63,13 @@ int main()
             }
         }
 
+        if (T++ > 1)
+        {
+            cout << endl;
+        }
         for (int i = 0; i < numOfFriends; i++)
         {
             cout << names[i] << " " << money[i] << "\n";
         }
-    
+    }
 }
