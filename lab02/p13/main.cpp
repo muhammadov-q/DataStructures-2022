@@ -12,12 +12,12 @@ int main()
     {
         if (banks + debentures == 0) break;
         
-        vector <int> cashReserve(debentures);
-        for (int i = 0 ; i < banks ; ++i) {
+        vector <int> cashReserve(banks);
+        for (int i = 0 ; i < banks; i++) {
             cin >> cashReserve[i];
         }
     
-        for (int i = 0 ; i < debentures ; ++i)
+        for (int i = 1 ; i <= debentures ; i++)
         {
             int debtor, creditor, money;
             cin >> debtor >> creditor >> money;
@@ -26,7 +26,7 @@ int main()
         }
         
         bool isPositive = true;
-        for(int i = 0 ; i < banks ; ++i)
+        for(int i = 0 ; i < banks ; i++)
         {
             if(cashReserve[i] < 0)
             {
