@@ -5,101 +5,148 @@ int sz(const C &c) { return static_cast<int>(c.size()); }
 
 using namespace std;
 
-void printPuzzle(const vector<string> &puzzle, const int &puzzleNumber, const bool &error);
-void move(vector<string> &pazzle, bool &valid, int &x, int &y);
-
-const map<char, int> moveX = {
-    {'A', 0},
-    {'B', 0},
-    {'R', 1},
-    {'L', -1},
-};
-
-const map<char, int> moveY = {
-    {'A', -1},
-    {'B', 1},
-    {'R', 0},
-    {'L', 0},
-};
-
-void move(vector<string> &pazzle, bool &valid, int &x, int &y)
+void output(vector <vector <char>> v, int &count)
 {
-    char move;
-
-    while (cin >> move && move != '0')
+    cout << "Puzzle #" << count << ":\n";
+    for (int i = 0; i < 5; i++)
     {
-        int nX(x + moveX.at(move)), nY(y + moveY.at(move));
-
-        if (nX < 0 || nX >= 5 || nY < 0 || nY >= 5)
-            valid = false;
-
-        if (valid)
+        for (int j = 0; j < 5; j ++)
         {
-            swap(pazzle[nY][nX], pazzle[y][x]);
-            x = nX;
-            y = nY;
+            if (j != 4)
+            {
+                cout << v[i][j] << " ";    
+            } 
+            else 
+            {
+                cout <<v[i][j];
+            }
         }
-
-        cin >> move;
+        cout << "\n";
     }
 }
 
-void printPuzzle(const vector<string> &pazzle, const int &puzzleNumber, const bool &valid)
+bool move(vector <vector <char>> &v, string str,int &xi, int &yi)
 {
-    cout << "Puzzle #" << puzzleNumber << ":\n";
-
-    if (valid)
+    bool check = true;
+    for (int i = 0; i < (int) str.size() - 1; i++)
     {
-        for (int y = 0; y < 5; ++y)
+        if (str[i] == 'A')
         {
-            string space = "";
-            for (int x = 0; x < 5; ++x)
+            if (xi != 0)
             {
-                cout << space << pazzle[y][x];
-                space = " ";
+                v[xi][yi] = v[xi-1][yi];
+                v[xi-1][yi] = ' ';
+                xi--;
+            } 
+            else 
+            {
+                check = false;
             }
-
-            cout << '\n';
+        } 
+        else if (str[i] == 'B')
+        {
+            if (xi != 4)
+            {
+                v[xi][yi] = v[xi+1][yi];
+                v[xi+1][yi] = ' ';
+                xi++;
+            } 
+            else
+            {
+                check = false;
+            }
+        } 
+        else if (str[i] == 'L')
+        {
+            if (yi != 0)
+            {
+                v[xi][yi] = v[xi][yi-1];
+                v[xi][yi-1] = ' ';
+                yi--;
+            }
+            else
+            {
+                check = false;
+            }
+        } 
+        else if (str[i] == 'R')
+        {
+            if (yi != 4)
+            {
+                v[xi][yi] = v[xi][yi+1];
+                v[xi][yi+1] = ' ';
+                yi++;
+            } 
+            else 
+            {
+                check = false;
+            }
+        } 
+        else if (str[i] != '0')
+        {
+            check = false;
         }
     }
+    return check;
+}
 
-    else
-        cout << "This puzzle has no final configuration.\n";
-
-    cin.ignore();
+bool input()
+{
+    int count = 1;
+    while (true)
+    {
+        vector <vector <char>> v(5);
+        vector <int> index {0, 0};
+        int xi = 0, yi = 0;
+        string str = "";
+        string line = "";
+        for (int i = 0; i < 5; i ++)
+        {
+            getline(cin, line);
+            if (line.size() == 4)
+            {
+                line += " ";
+            }
+            if (line == "Z")
+            {
+                return false;
+            }
+            for (int j = 0; j < (int) line.size() && j <= 4; j ++)
+            {
+                if (line[j] == ' ' )
+                {
+                    xi = i;yi = j;
+                }
+                v[i].push_back(line[j]);
+            }
+        }
+        if (count != 1)
+        {
+            cout << "\n";
+        }
+        while (true)
+        {
+            string com;
+            cin >> com;
+            str += com;
+            if (com[com.size()-1] == '0') break;
+        }
+        if (move(v, str, xi, yi)) 
+        {
+            output(v, count);
+        }
+        else 
+        {
+            cout << "Puzzle #" << count << ":\n" << "This puzzle has no final configuration.\n";
+        }
+        count ++;
+        string temp;
+        getline (cin,temp);
+    }
 }
 
 int main()
 {
-    vector<string> pazzle(5);
-
-    string lineBlank = "";
-    for (int t = 1;; ++t)
-    {
-        int x(-1), y(-1);
-
-        for (int i = 0; i < 5; ++i)
-        {
-            getline(cin, pazzle[i]);
-
-            for (int j = 0; j < 5; ++j)
-            {
-                if (pazzle[i][j] == 'Z')
-                    return 0;
-
-                if (pazzle[i][j] == ' ')
-                {
-                    x = j;
-                    y = i;
-                }
-            }
-        }
-
-        cout << lineBlank;
-        lineBlank = '\n';
-
-        bool valid(true);
-        move(pazzle, valid, x, y);
-        printPuzzle(pazzle, t, valid);
-    }
+    iostream::sync_with_stdio(false); // disabling synchronization between the C and C++ standard streams
+    input();
 }
