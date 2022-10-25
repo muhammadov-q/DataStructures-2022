@@ -7,53 +7,20 @@ using namespace std;
 
 void printPuzzle(const vector<string> &puzzle, const int &puzzleNumber, const bool &error);
 void move(vector<string> &pazzle, bool &valid, int &x, int &y);
+
 const map<char, int> moveX = {
     {'A', 0},
     {'B', 0},
     {'R', 1},
     {'L', -1},
 };
+
 const map<char, int> moveY = {
     {'A', -1},
     {'B', 1},
     {'R', 0},
     {'L', 0},
 };
-
-int main()
-{
-    vector<string> pazzle(5);
-
-    string lineBlank = "";
-    for (int t = 1;; ++t)
-    {
-        int x(-1), y(-1);
-
-        for (int i = 0; i < 5; ++i)
-        {
-            getline(cin, pazzle[i]);
-
-            for (int j = 0; j < 5; ++j)
-            {
-                if (pazzle[i][j] == 'Z')
-                    return 0;
-
-                if (pazzle[i][j] == ' ')
-                {
-                    x = j;
-                    y = i;
-                }
-            }
-        }
-
-        cout << lineBlank;
-        lineBlank = '\n';
-
-        bool valid(true);
-        move(pazzle, valid, x, y);
-        printPuzzle(pazzle, valid, t);
-    }
-}
 
 void move(vector<string> &pazzle, bool &valid, int &x, int &y)
 {
@@ -100,4 +67,39 @@ void printPuzzle(const vector<string> &pazzle, const int &puzzleNumber, const bo
         cout << "This puzzle has no final configuration.\n";
 
     cin.ignore();
+}
+
+int main()
+{
+    vector<string> pazzle(5);
+
+    string lineBlank = "";
+    for (int t = 1;; ++t)
+    {
+        int x(-1), y(-1);
+
+        for (int i = 0; i < 5; ++i)
+        {
+            getline(cin, pazzle[i]);
+
+            for (int j = 0; j < 5; ++j)
+            {
+                if (pazzle[i][j] == 'Z')
+                    return 0;
+
+                if (pazzle[i][j] == ' ')
+                {
+                    x = j;
+                    y = i;
+                }
+            }
+        }
+
+        cout << lineBlank;
+        lineBlank = '\n';
+
+        bool valid(true);
+        move(pazzle, valid, x, y);
+        printPuzzle(pazzle, t, valid);
+    }
 }
