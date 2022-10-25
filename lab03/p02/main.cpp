@@ -68,7 +68,7 @@ void move(vector<string> &pazzle, bool &valid, int &x, int &y)
 
         if (valid)
         {
-            swap(pazzle[nY][nX], pazzle[x][y]);
+            swap(pazzle[nY][nX], pazzle[y][x]);
             x = nX;
             y = nY;
         }
