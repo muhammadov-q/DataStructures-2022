@@ -9,7 +9,7 @@ class Computer
 {
     vector<int> reg;
     vector<int> ram;
-    int ins;
+    int instructionPointer;
 
     void runCommand2(int d, int n)
     {
@@ -50,12 +50,12 @@ class Computer
     void runCommand0(int d, int n)
     {
         if (reg[n] != 0)
-            ins = reg[d];
+            instructionPointer = reg[d];
     }
 
 public:
     Computer()
-        : reg(10, 0), ram(1000, 0), ins(0)
+        : reg(10, 0), ram(1000, 0), instructionPointer(0)
     {
     }
 
@@ -72,12 +72,12 @@ public:
     int run()
     {
         int res = 1;
-        for (; ram[ins] != 100;)
+        for (; ram[instructionPointer] != 100;)
         {
-            int d2 = ram[ins] % 10;
-            int d1 = ram[ins] % 100 / 10;
-            int d = ram[ins] / 100;
-            ins++;
+            int d2 = ram[instructionPointer] % 10;
+            int d1 = ram[instructionPointer] % 100 / 10;
+            int d = ram[instructionPointer] / 100;
+            instructionPointer++;
             res++;
 
             switch (d)
@@ -121,14 +121,18 @@ int main()
     iostream::sync_with_stdio(false);
 
     int tests;
-    cin >> tests >> ws;
+    cin >> tests >> ws; //discard leading whitespace from an input stream
     for (int i = 0; i < tests; i++)
     {
         Computer comp;
 
         comp.readCommands(cin);
 
-    
+        if (i) 
+        {
+           cout << "\n"; 
+        }
+            
         cout << comp.run() << "\n";
     }
 }
