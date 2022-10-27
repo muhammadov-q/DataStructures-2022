@@ -5,6 +5,16 @@ int sz(const C &c) { return static_cast<int>(c.size()); }
 
 using namespace std;
 
+void output(vector <vector <char>> v, int &count);
+bool move(vector <vector <char>> &v, string str,int &xi, int &yi);
+bool input();
+
+int main()
+{
+    iostream::sync_with_stdio(false);
+    input();
+}
+
 void output(vector <vector <char>> v, int &count)
 {
     cout << "Puzzle #" << count << ":\n";
@@ -18,7 +28,7 @@ void output(vector <vector <char>> v, int &count)
             } 
             else 
             {
-                cout <<v[i][j];
+                cout << v[i][j];
             }
         }
         cout << "\n";
@@ -96,7 +106,6 @@ bool input()
     while (true)
     {
         vector <vector <char>> v(5);
-        vector <int> index {0, 0};
         int xi = 0, yi = 0;
         string str = "";
         string line = "";
@@ -111,11 +120,12 @@ bool input()
             {
                 return false;
             }
-            for (int j = 0; j < (int) line.size() && j <= 4; j ++)
+            for (int j = 0; j < (int) line.size() && j <= 4; j++)
             {
-                if (line[j] == ' ' )
+                if (line[j] == ' ')
                 {
-                    xi = i;yi = j;
+                    xi = i;
+                    yi = j;
                 }
                 v[i].push_back(line[j]);
             }
@@ -139,14 +149,8 @@ bool input()
         {
             cout << "Puzzle #" << count << ":\n" << "This puzzle has no final configuration.\n";
         }
-        count ++;
+        count++;
         string temp;
         getline (cin,temp);
     }
-}
-
-int main()
-{
-    iostream::sync_with_stdio(false); // disabling synchronization between the C and C++ standard streams
-    input();
 }
