@@ -33,6 +33,6 @@ int main()
             }
         }
 
-        cout << fixed << setprecision(3) << (cnt*100)/n << "%\n";
+        cout << fixed << setprecision(3) << (double) (cnt*100)/n << "%\n";
     }
 }
