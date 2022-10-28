@@ -24,7 +24,7 @@ int main()
         for (int i = 0; i < r; i++)
         {
             int sum = 0;
-            for (int j = 0l j < i; j++)
+            for (int j = 0; j < r; j++)
             {
                 if (i != j)
                 {
@@ -33,6 +33,6 @@ int main()
             }
             mn = min(mn, sum);
         }
-        cout << mn << "/n";
+        cout << mn << "\n";
     }
 }
