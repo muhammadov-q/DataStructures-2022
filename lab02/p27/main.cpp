@@ -23,14 +23,18 @@ int main()
         for (int i = 0; i < d - 1; i++)
         {
             if ((i + 1) > k)
+            {
                 mp.erase(mp.begin());
-
+            }
+                
             mp.push_back(names[i]);
 
             if (find(mp.begin(), mp.end(), names[i + 1]) != mp.end())
+            {
                 res++;
-                }
-
+            }
+               
+        }
         cout << "Case " << c << ": " << res << "\n";
     }
 }
