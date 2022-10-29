@@ -39,6 +39,6 @@ int main()
                 mn = min(mn, l2 + ((i - l2) > 0 ? (i - l2) : 0) - ((i - l1) < 0 ? (i - l1) : 0));
         }
 
-        cout << mn;
+        cout << mn << "\n";
     }
 }
