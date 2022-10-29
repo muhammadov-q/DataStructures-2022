@@ -13,8 +13,7 @@ int main()
     vector<int> v1(3);
     vector<int> v2(3);
     vector<int> v3(3);
-    vector<vector<int>> ps = {{b, g, c}, {b, c, g}, {c, b, g}, {c, g, b}, {g, c ,b}, {g, b, c}};
-    string color = "BGC";
+    vector<vector<int>> ps = {{b, c, g}, {b, g, c}, {c, b, g}, {c, g, b}, {g, b, c}, {g, c, b}};    string color = "BGC";
 
     while(cin >> v1[0] >> v1[1] >> v1[2])
     {
@@ -32,11 +31,11 @@ int main()
         int sum = 0, mn = 9999999;
         for(auto p : ps)
         {
-            s1 = v1[p[b]] + v2[p[b]];
+            s1 = v2[p[b]] + v3[p[b]];
             s2 = v1[p[g]] + v3[p[g]];
-            s3 = v2[p[c]] + v3[p[c]];
+            s3 = v1[p[c]] + v2[p[c]];
             sum = s1 + s2 + s3;
-            if (sum < mn)
+            if (mn > sum)
             {
                 mn = sum;
                 ans = p;
