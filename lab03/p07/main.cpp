@@ -7,228 +7,193 @@ using namespace std;
 
 class Game
 {
-    vector<vector<int>> board;
-    const static int whitePawn = 1, blackPawn = 2, rook = 3, knight = 4, bishop = 5, king = 6, queen = 7;
+    friend ostream &operator<<(ostream &out, const Game &game);
+    vector<string> board;
 
-    void putFigure(char f, int row, int col)
+public: 
+    Game(const string &descr)
+        : board(8, string(8, '.'))
     {
-        switch (f)
+        int r = 0;
+        int c = 0;
+        for (auto e : descr)
         {
-        case 'r':
-        case 'R':
-            board[row][col] = rook;
-            break;
-        case 'n':
-        case 'N':
-            board[row][col] = knight;
-            break;
-        case 'b':
-        case 'B':
-            board[row][col] = bishop;
-            break;
-        case 'k':
-        case 'K':
-            board[row][col] = king;
-            break;
-        case 'q':
-        case 'Q':
-            board[row][col] = queen;
-            break;
-        case 'p':
-            board[row][col] = blackPawn;
-            break;
-        case 'P':
-            board[row][col] = whitePawn;
-            break;
-        }
-    }
-
-    void parse(string line)
-    {
-        int row = 0, col = 0;
-        for (int i = 0; i < sz(line); i++)
-        {
-            if (isdigit(line[i]))
+            if (e == '/')
             {
-                col += line[i] - '0';
+                ++r;
+                c = 0;
             }
-            else if (line[i] == '/')
+            else if (isdigit(e))
             {
-                row++;
-                col = 0;
+                c += e - '0';
             }
             else
             {
-                putFigure(line[i], row, col);
-                col++;
+                board[r][c] = e;
+                ++c;
             }
+
         }
-    }
-
-    void QueenAndKingMoves(int row, int col, int n)
-    {
-        const static vector<int> KingMovesY = {-1, -1, -1, 0, 0, 1, 1, 1};
-        const static vector<int> KingMovesX = {-1, 0, 1, -1, 1, -1, 0, 1};
-
-        for (int i = 0; i < 8; i++)
-        {
-            int newX = col + KingMovesX[i];
-            int newY = row + KingMovesY[i];
-
-            int cnt = 0;
-            while (0 <= newX && newX <= 7 && 0 <= newY && newY <= 7 && (board[newY][newX] == 0 || board[newY][newX] == 9))
-            {
-                if (cnt >= n)
-                    break;
-                board[newY][newX] = 9;
-
-                newX = newX + KingMovesX[i];
-                newY = newY + KingMovesY[i];
-                cnt++;
-            }
-        }
-    }
-
-    void KnightMoves(int row, int col)
-    {
-        const static vector<int> KnightMovesY = {-2, -2, -1, 1, -1, 1, 2, 2};
-        const static vector<int> KnightMovesX = {-1, 1, -2, -2, 2, 2, -1, 1};
-
-        for (int i = 0; i < 8; i++)
-        {
-            int newX = col + KnightMovesX[i];
-            int newY = row + KnightMovesY[i];
-
-            if (0 <= newX && newX <= 7 && 0 <= newY && newY <= 7 && (board[newY][newX] == 0 || board[newY][newX] == 9))
-            {
-                board[newY][newX] = 9;
-            }
-        }
-    }
-
-    void BishopMoves(int row, int col)
-    {
-        const static vector<int> BishopMovesY = {-1, -1, 1, 1};
-        const static vector<int> BishopMovesX = {-1, 1, -1, 1};
-
-        for (int i = 0; i < 4; i++)
-        {
-            int newX = col + BishopMovesX[i];
-            int newY = row + BishopMovesY[i];
-
-            while (0 <= newX && newX <= 7 && 0 <= newY && newY <= 7 && (board[newY][newX] == 0 || board[newY][newX] == 9))
-            {
-                board[newY][newX] = 9;
-
-                newX = newX + BishopMovesX[i];
-                newY = newY + BishopMovesY[i];
-            }
-        }
-    }
-
-    void RookMoves(int row, int col)
-    {
-        const static vector<int> RookMovesY = {-1, 0, 0, 1};
-        const static vector<int> RookMovesX = {0, -1, 1, 0};
-
-        for (int i = 0; i < 4; i++)
-        {
-            int newX = col + RookMovesX[i];
-            int newY = row + RookMovesY[i];
-
-            while (0 <= newX && newX <= 7 && 0 <= newY && newY <= 7 && (board[newY][newX] == 0 || board[newY][newX] == 9))
-            {
-                board[newY][newX] = 9;
-
-                newX = newX + RookMovesX[i];
-                newY = newY + RookMovesY[i];
-            }
-        }
-    }
-
-    void PawnMoves(int row, int col, int color)
-    {
-        const static vector<int> PawnMovesX = {-1, 1};
-        int PawnMove = PawnMovesX[color - 1];
-
-        int newY = row + PawnMove;
-
-        for (int i = 0; i < 2; i++)
-        {
-            int newX = col + PawnMovesX[i];
-            if (0 <= newX && newX <= 7 && 0 <= newY && newY <= 7 && (board[newY][newX] == 0 || board[newY][newX] == 9))
-            {
-                board[newY][newX] = 9;
-            }
-        }
-    }
-
-    int countEmptyCells()
-    {
-        int cnt = 0;
-
-        for (int i = 0; i < 8; i++)
-            for (int j = 0; j < 8; j++)
-                if (!board[i][j])
-                    cnt++;
-
-        return cnt;
-    }
-
-public:
-    Game(string cnf)
-        : board(vector<vector<int>>(8, vector<int>(8)))
-    {
-        parse(cnf);
     }
 
     int solve()
     {
-        for (int row = 0; row < 8; row++)
+        for (int r = 0; r < 8; ++r)
         {
-            for (int col = 0; col < 8; col++)
+            for (int c = 0; c < 8; ++c)
             {
-                if (board[row][col] && board[row][col] < 8)
+                switch(board[r][c])
                 {
-                    int figure = board[row][col];
-                    switch (figure)
-                    {
-                    case king:
-                        QueenAndKingMoves(row, col, 1);
+                    case 'p':
+                        attackByBlackPawn(r, c);
                         break;
-                    case queen:
-                        QueenAndKingMoves(row, col, 8);
+                    case 'P':
+                        attackByWhitePawn(r, c);
                         break;
-                    case bishop:
-                        BishopMoves(row, col);
+                    case 'r':
+                    case 'R':
+                        attackByRook(r, c);
                         break;
-                    case knight:
-                        KnightMoves(row, col);
+                    case 'b':
+                    case 'B':
+                        attackByBishop(r, c);
                         break;
-                    case rook:
-                        RookMoves(row, col);
+                    case 'q':
+                    case 'Q':
+                        attackByQueen(r, c);
                         break;
-                    case blackPawn:
-                        PawnMoves(row, col, blackPawn);
+                    case 'k':
+                    case 'K':
+                        attackByKing(r, c);
                         break;
-                    case whitePawn:
-                        PawnMoves(row, col, whitePawn);
+                    case 'n':
+                    case 'N':
+                        attackByKnight(r, c);
                         break;
-                    }
+                }    
+            }
+        }
+        int res = 0;
+        for (auto const &row : board)
+        {
+            res += count(row.begin(), row.end(), '.');
+        }
+
+        return res;
+    }
+
+    void attackByBlackPawn(int r, int c)
+    {
+        if (check(r+1, c-1) && (board[r+1][c-1] == '.' ||board[r+1][c-1] == '*'))
+        {
+            board[r+1][c-1] = '*';
+        }
+        if (check(r+1, c+1) && (board[r+1][c+1] == '.' ||board[r+1][c+1] == '*'))
+        {
+            board[r+1][c+1] = '*';
+        }
+    }
+
+    void attackByWhitePawn(int r, int c)
+    {
+        if (check(r-1, c-1) && (board[r-1][c-1] == '.' ||board[r-1][c-1] == '*'))
+        {
+            board[r-1][c-1] = '*';
+        }
+        if (check(r-1, c+1) && (board[r-1][c+1] == '.' ||board[r-1][c+1] == '*'))
+        {
+            board[r-1][c+1] = '*';
+        }
+    }
+
+    void attackByRook(int r, int c)
+    {
+        attackInDir(r ,c ,0 , 1);
+        attackInDir(r ,c ,0 , -1);
+        attackInDir(r ,c ,-1 , 0);
+        attackInDir(r ,c ,1 , 0);
+    }
+
+    void attackByBishop(int r, int c)
+    {
+        attackInDir(r ,c ,1 , 1);
+        attackInDir(r ,c ,1 , -1);
+        attackInDir(r ,c ,-1 , -1);
+        attackInDir(r ,c ,-1 , 1);
+    }
+
+    void attackByQueen(int r, int c)
+    {
+        attackByRook(r, c);
+        attackByBishop(r, c);
+    }
+
+    void attackInDir(int r, int c, int dr, int dc)
+    {
+        while(check(r+dr, c+dc) && (board[r+dr][c+dc] == '.' || board[r+dr][c+dc] == '*'))
+        {
+            r += dr;
+            c += dc;
+            board[r][c] = '*';
+        }
+    }
+
+    void attackByKing(int r, int c)
+    {
+        for (int tr = r-1; tr <= r+1; ++tr)
+        {
+            for (int tc = c-1; tc <= c+1; ++tc)
+            {
+                if (check(tr, tc) && board[tr][tc] == '.')
+                {
+                    board[tr][tc] = '*';
                 }
             }
         }
-        return countEmptyCells();
     }
+
+    void attackByKnight(int r, int c)
+    {
+        static const vector<int> dr = {-2, -1, 1, 2, 2, 1, -1, -2};
+        static const vector<int> dc = {1, 2, 2, 1, -1, -2, -2, -1};
+
+        for (int i = 0; i < sz(dr); ++i)
+        {
+            int tr = r + dr[i];
+            int tc = c + dc[i];
+            if (check(tr, tc) && board[tr][tc] == '.')
+            {
+                    board[tr][tc] = '*';
+            }
+        }
+    }
+
+    bool check(int r, int c)
+    {
+        return 0 <= r && r < 8 && 0 <= c && c < 8;
+    }
+
 };
+
+ostream &operator<<(ostream &out, const Game &game)
+{
+    for (const auto &row : game.board)
+    {
+        out << row << endl;
+    }
+
+    return out;
+}
 
 int main()
 {
     iostream::sync_with_stdio(false);
-
-    for (string cnf; getline(cin, cnf);)
+    for (string gameDescription; getline(cin, gameDescription);)
     {
-        Game game(cnf);
+        Game game(gameDescription);
         cout << game.solve() << "\n";
+
+        // cout << game << endl;
+        // cout << "----" << endl;
     }
 }
