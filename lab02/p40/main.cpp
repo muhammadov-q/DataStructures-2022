@@ -15,7 +15,7 @@ int main()
     = vowel['O'] = vowel['o'] 
     = vowel['U'] = vowel['u'] = true;
     
-    string line, word, sep;
+    string line;
     while (getline(cin, line))
     {
         for (int i = 0; i < sz(line); ++i)
@@ -36,7 +36,7 @@ int main()
                     
                 if (!vowel[startingCharacter])
                 {
-                     cout << startingCharacter;
+                    cout << startingCharacter;
                 }
             
                 cout << "ay";
