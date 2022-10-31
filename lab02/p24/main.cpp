@@ -20,7 +20,7 @@ int main()
             cin >> st[i];
         }
 
-        int mn = 500 * 500 * 3000;
+        int mn = INT_MAX;
         for (int i = 0; i < r; i++)
         {
             int sum = 0;
