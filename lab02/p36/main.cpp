@@ -10,29 +10,49 @@ int main()
     iostream::sync_with_stdio(false);
     int T;
     cin >> T;
-
-    for (int t = 1; t <= T; t++)
+    for (int i = 1; i <= T; i++)
     {
-        cout << "Case " << t << ": ";
-        string line;
-        cin >> line;
-        
-        int pos = 0, count = 0;
-        char letter = line[pos];
-        pos++;
-        for (; pos < sz(line); pos++)
+        string str;
+        cin >> str;
+        istringstream sinp(str);
+
+        cout << "Case " << i << ": ";
+        for (char let; sinp >> let;)
         {
-            if (isalpha(line[pos]))
+            int num;
+            sinp >> num;
+            for (int j = 0; j < num; j++)
             {
-                cout << string(count, letter);
-                count = 0;
-                letter = line[pos];
-            }
-            if (isdigit(line[pos]))
-            {
-                count = count * 10 + line[pos] - '0';   
+                cout << let;
             }
         }
-        cout << string(count, letter) << '\n';
-    }
+        cout << endl;
+    } 
+    // int T;
+    // cin >> T;
+
+    // for (int t = 1; t <= T; t++)
+    // {
+    //     cout << "Case " << t << ": ";
+    //     string line;
+    //     cin >> line;
+        
+    //     int pos = 0, count = 0;
+    //     char letter = line[pos];
+    //     pos++;
+    //     for (; pos < sz(line); pos++)
+    //     {
+    //         if (isalpha(line[pos]))
+    //         {
+    //             cout << string(count, letter);
+    //             count = 0;
+    //             letter = line[pos];
+    //         }
+    //         if (isdigit(line[pos]))
+    //         {
+    //             count = count * 10 + line[pos] - '0';   
+    //         }
+    //     }
+    //     cout << string(count, letter) << '\n';
+    // }
 }
