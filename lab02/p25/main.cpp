@@ -30,7 +30,7 @@ int main()
         cout << "Case " << tc << ":\n";
         for (int k = 0; k < m; k++)
         {
-            int res = 999999999, a = 0, b = 0;
+            int res = INT_MAX, a = 0, b = 0;
             for (int i = 0; i < n; i++)
             { 
                 for (int j = 0; j < n; j++)
