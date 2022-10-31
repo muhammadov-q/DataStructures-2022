@@ -8,12 +8,12 @@ using namespace std;
 int main()
 {
     iostream::sync_with_stdio(false);
-    const int size = 16;
-    string song[size] = {"Happy", "birthday", "to", "you", "Happy", "birthday", "to",
-    "you", "Happy", "birthday", "to", "Rujia", "Happy", "birthday", "to", "you"};
-
+    
     int numOfPeople;
     cin >> numOfPeople;
+
+    string song[] = {"Happy", "birthday", "to", "you", "Happy", "birthday", "to",
+    "you", "Happy", "birthday", "to", "Rujia", "Happy", "birthday", "to", "you"};
 
     vector<string> people(numOfPeople);
     for (int i; i < numOfPeople; i++)
@@ -21,16 +21,9 @@ int main()
         cin >> people[i];
     }
 
-    bool isOver = false;
-    for (int person = 0, cWord = 0; cWord < size || !isOver; ++person, ++cWord)
+    int ln = 16 * ceil((double) numOfPeople / 16);
+    for (int i = 0; i < ln; i++)
     {
-        cWord %= size;
-        cout << people[person] << ": " << song[cWord] << "\n";
-        
-        if (person + 1 == numOfPeople)
-        {
-            isOver = true;
-            person = -1;
-        }
+        cout << people[(i%numOfPeople)] << ": " << song[i%16] << endl;
     }
 }
