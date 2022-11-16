@@ -72,3 +72,33 @@ TEST_CASE("Constructor with a string parametr")
         REQUIRE_THROWS_AS(BigInt(" 123 "), runtime_error);
     }
 }
+
+TEST_CASE("Addition")
+{
+    ostringstream sout;
+    SUBCASE("Positive + positive")
+    {
+        BigInt x("193");
+        BigInt y("59");
+        sout << x + y;
+        REQUIRE(sout.str() == "252");
+    }
+
+    SUBCASE("negative + negative")
+    {
+        BigInt x("-193");
+        BigInt y("-59");
+        sout << x + y;
+        REQUIRE(sout.str() == "-252");
+    }
+    
+    // SUBCASE("Positive + negative")
+    // {
+        
+    // }
+    // SUBCASE("negative + Positive")
+    // {
+        
+    // }
+    
+}
