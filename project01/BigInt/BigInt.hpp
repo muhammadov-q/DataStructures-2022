@@ -21,34 +21,29 @@ public:
     BigInt(const std::string &s)
         : mIsNegative(false)
     {
-        if (s == "")
+        size_t i = 0;
+        if( !s.empty() && (s[i] == '-' || s[i] == '+'))
         {
-            throw std::runtime_error("BigInt can not be empty");
+            mIsNegative = s[i] == '-';
+            ++i;
+        }
+        while(i+1 < s.size() && s[i] == '0')
+        {
+            ++i;
+        }
+        for (;i < s.size() && isdigit(s[i]); i++)
+        {
+            mDigits.push_back(s[i] - '0');
+        }
+        if (i < s.size() || mDigits.empty())
+        {
+            throw std::runtime_error("BigInt: Incorrect string representation");
+        }
+        if (mDigits.size() == 1 && mDigits[0] == 0)
+        {
+            mIsNegative = true;
         }
 
-        for (auto e : s)
-        {
-            if (e == '+' || e == '-')
-            {
-                continue;
-            }
-            else if (!isdigit(e))
-            {
-                throw std::runtime_error("BigInt entered wrongly");
-            }
-        }
-
-        for (auto d : s)
-        {
-            if (d == '+')
-            {
-                continue;
-            }
-            else
-            {
-                mDigits.push_back(d - '0');
-            }
-        }
     }
 };
 

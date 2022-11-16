@@ -25,30 +25,35 @@ TEST_CASE("default constructor")
     }
 }
 
-TEST_CASE("Constructor with a string")
+TEST_CASE("Constructor with a string parametr")
 {
-    SUBCASE("Positive Number")
+    ostringstream sout;
+    SUBCASE("jsut a very long positive number positive Number")
     {
         BigInt x("12345678912");
-        ostringstream sout;
         sout << x;
         REQUIRE(sout.str() == "12345678912");
     }
 
     SUBCASE("Positive Number with +")
     {
-        BigInt x("+12345678912");
-        ostringstream sout;
+        BigInt x("+123");
         sout << x;
-        REQUIRE(sout.str() == "12345678912");
+        REQUIRE(sout.str() == "123");
     }
 
-    SUBCASE("Negative Number")
+    SUBCASE("Negative Number with sign -")
     {
         BigInt x("-123");
-        ostringstream sout;
         sout << x;
         REQUIRE(sout.str() == "-123");
+    }
+
+    SUBCASE("number with zeros in front")
+    {
+        BigInt x("0000000123");
+        sout << x;
+        REQUIRE(sout.str() == "123");
     }
 
     SUBCASE("Empty string")
@@ -59,8 +64,11 @@ TEST_CASE("Constructor with a string")
     SUBCASE("other cases to throw exception")
     {
         REQUIRE_THROWS_AS(BigInt("sdvs sdf asf"), runtime_error);
+        REQUIRE_THROWS_AS(BigInt("hello"), runtime_error);
         REQUIRE_THROWS_AS(BigInt("12 12"), runtime_error);
         REQUIRE_THROWS_AS(BigInt("   -123"), runtime_error);
         REQUIRE_THROWS_AS(BigInt("-  123"), runtime_error);
+        REQUIRE_THROWS_AS(BigInt("123-123"), runtime_error);
+        REQUIRE_THROWS_AS(BigInt(" 123 "), runtime_error);
     }
 }
