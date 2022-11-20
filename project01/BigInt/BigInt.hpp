@@ -13,6 +13,8 @@ class BigInt
     friend bool operator==(const BigInt &x, const BigInt &y);
     friend bool operator!=(const BigInt &x, const BigInt &y);
     friend bool operator<(const BigInt &x, const BigInt &y);
+    friend bool operator>(const BigInt &x, const BigInt &y);
+
     friend inline BigInt operator+(const BigInt &x, const BigInt &y);
     std::vector<int> mDigits;
     bool mIsNegative;
@@ -133,7 +135,18 @@ inline bool operator<(const BigInt &x, const BigInt &y)
         return x.mDigits.size() < y.mDigits.size() ||
         (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits);
     }
+
+    if (x.mIsNegative && y.mIsNegative)
+    {
+        return !(x.mDigits.size() < y.mDigits.size() ||
+        (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits));
+    }
     assert(false);
+}
+
+inline bool operator>(const BigInt &x, const BigInt &y)
+{
+    return y < x;
 }
 
 inline BigInt operator+(const BigInt &a, const BigInt &b)

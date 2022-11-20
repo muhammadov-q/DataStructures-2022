@@ -168,7 +168,7 @@ TEST_CASE("bigInt: operator !=")
 
 TEST_CASE("bigInt: comparison operators")
 {
-    SUBCASE("negative and positive")
+    SUBCASE("negative and positive, operator<")
     {
         REQUIRE(BigInt("-123") < BigInt("1"));
         REQUIRE(BigInt("-123") < BigInt("0"));
@@ -178,12 +178,38 @@ TEST_CASE("bigInt: comparison operators")
         REQUIRE_FALSE(BigInt("123") < BigInt("-123"));
     }
 
-    SUBCASE("positive")
+    SUBCASE("positives, operator<")
     {
         REQUIRE(BigInt("909") < BigInt("981"));
         REQUIRE(BigInt("99") < BigInt("9999"));
         REQUIRE(BigInt("0") < BigInt("1"));
     }
+
+    SUBCASE("negatives, operator<")
+    {
+        REQUIRE(BigInt("-12") < BigInt("-1"));
+        REQUIRE(BigInt("-123") < BigInt("-12"));
+        REQUIRE(BigInt("-111") < BigInt("-2"));
+        REQUIRE(BigInt("-222") < BigInt("-111"));
+    }
+
+    SUBCASE("negative and positive, operator>")
+    {
+        REQUIRE(BigInt("1") > BigInt("-123"));
+        REQUIRE(BigInt("0") > BigInt("-123"));
+        REQUIRE(BigInt("123") > BigInt("-123"));
+        REQUIRE_FALSE(BigInt("-123") > BigInt("1"));
+        REQUIRE_FALSE(BigInt("-123") > BigInt("0"));
+        REQUIRE_FALSE(BigInt("-123") > BigInt("123"));
+    }
+
+    SUBCASE("positive, operator>")
+    {
+        REQUIRE(BigInt("989") > BigInt("981"));
+        REQUIRE(BigInt("9999") > BigInt("99"));
+        REQUIRE(BigInt("1") > BigInt("0"));
+    }
+
 }
 
 
