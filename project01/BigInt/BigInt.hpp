@@ -9,6 +9,8 @@
 class BigInt
 {
     friend inline std::ostream &operator<<(std::ostream &out, const BigInt &x);
+    friend bool operator==(const BigInt &x, const BigInt &y);
+    friend bool operator!=(const BigInt &x, const BigInt &y);
     friend inline BigInt operator+(const BigInt &x, const BigInt &y);
     std::vector<int> mDigits;
     bool mIsNegative;
@@ -43,9 +45,8 @@ public:
         }
         if (mDigits.size() == 1 && mDigits[0] == 0)
         {
-            mIsNegative = true;
+            mIsNegative = false;
         }
-
     }
 
     static BigInt addAbsValues(const BigInt &x, const BigInt &y) 
@@ -101,6 +102,16 @@ inline std::ostream &operator<<(std::ostream &out, const BigInt &x)
     }
 
     return out;
+}
+
+inline bool operator==(const BigInt &x, const BigInt &y)
+{
+    return x.mIsNegative == y.mIsNegative && x.mDigits ==  y.mDigits;
+}
+
+inline bool operator!=(const BigInt &x, const BigInt &y)
+{
+    return !(x == y);
 }
 
 inline BigInt operator+(const BigInt &a, const BigInt &b)
