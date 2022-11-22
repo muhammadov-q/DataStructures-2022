@@ -16,7 +16,7 @@ class BigInt
     friend bool operator>(const BigInt &x, const BigInt &y);
     friend bool operator<=(const BigInt &x, const BigInt &y);
     friend bool operator>=(const BigInt &x, const BigInt &y);
-
+    friend inline BigInt operator-(const BigInt &a, const BigInt &b);
     friend inline BigInt operator+(const BigInt &x, const BigInt &y);
     std::vector<int> mDigits;
     bool mIsNegative;
@@ -93,6 +93,49 @@ public:
 
         return z;
     }
+
+    static BigInt subtractAbsVal(const BigInt &x, const BigInt &y)
+    {
+        BigInt z;
+        z.mDigits.clear();
+
+        auto itX = x.mDigits.rbegin();   
+        auto itY = y.mDigits.rbegin();  
+
+        int borrow = 0;
+        while (itX != x.mDigits.rend())
+        {
+            int dif = *itX - borrow;
+            itX++;
+
+            if (itY != y.mDigits.rend())
+            {
+                dif -= *itY;
+                itY++;
+            }
+
+            if (dif < 0)
+            {
+                dif += 10;
+                borrow = 1;
+            }
+            else
+            {
+                borrow = 0;
+            }
+
+            z.mDigits.push_back(dif);
+        }
+
+        while (z.mDigits.size() > 1 && z.mDigits.front() == 0)
+        {
+            z.mDigits.erase(z.mDigits.begin());
+        }
+
+        std::reverse(z.mDigits.begin(), z.mDigits.end());
+        return z;
+    }
+
 };
 
 inline std::ostream &operator<<(std::ostream &out, const BigInt &x)
@@ -162,6 +205,7 @@ bool operator>=(const BigInt &x, const BigInt &y)
     return (y < x || y == x);
     //(!(x < y))
 }
+
 inline BigInt operator+(const BigInt &a, const BigInt &b)
 {
     if (!a.mIsNegative && !b.mIsNegative)
@@ -175,5 +219,27 @@ inline BigInt operator+(const BigInt &a, const BigInt &b)
         return z; 
     }
 
+    if ((!a.mIsNegative && b.mIsNegative) || (a.mIsNegative && !b.mIsNegative))
+    {
+        if (a > b)
+        {
+            return BigInt::subtractAbsVal(a, b);
+        }
+        else
+        {
+            return BigInt::subtractAbsVal(b, a);
+        }
+        
+    } 
+
     throw std::runtime_error("not implemented yet");
+}
+
+inline BigInt operator-(const BigInt &a, const BigInt &b)
+{
+    if (!a.mIsNegative && !b.mIsNegative)
+    {
+       return BigInt::subtractAbsVal(a, b);
+    }  
+    //TODO
 }

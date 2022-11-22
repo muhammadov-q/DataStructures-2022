@@ -4,6 +4,7 @@
         "*.tcc": "cpp",
         "iosfwd": "cpp",
         "*.json": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "sstream": "cpp"
     }
 }
