@@ -136,6 +136,11 @@ public:
         return z;
     }
 
+    BigInt(long long x)
+        : BigInt(std::to_string(x))
+    {
+    }
+
 };
 
 inline std::ostream &operator<<(std::ostream &out, const BigInt &x)
@@ -178,15 +183,11 @@ inline bool operator<(const BigInt &x, const BigInt &y)
     if (!x.mIsNegative && !y.mIsNegative)
     {
         return x.mDigits.size() < y.mDigits.size() ||
-        (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits);
+            (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits);
     }
-
-    if (x.mIsNegative && y.mIsNegative)
-    {
-        return !(x.mDigits.size() < y.mDigits.size() ||
-        (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits));
-    }
-    assert(false);
+    
+    return !(x.mDigits.size() < y.mDigits.size() ||
+        (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits)); 
 }
 
 inline bool operator>(const BigInt &x, const BigInt &y)

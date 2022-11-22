@@ -94,6 +94,18 @@ TEST_CASE("Constructor with a string parametr")
     }
 }
 
+TEST_CASE("constructor with long long paramater")
+{
+    ostringstream sout;
+    for (int i = -1000; i < 1000; i++)
+    {
+        BigInt x(i);
+        sout << x;
+        REQUIRE(sout.str() == to_string(i));
+        sout.str("");
+    }
+}
+
 TEST_CASE("bigInt: operator ==")
 {
     ostringstream sout;
