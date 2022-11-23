@@ -202,7 +202,7 @@ inline std::istream &operator>>(std::istream &inp, BigInt &x)
     }
 
     std::string s;
-    if (std::isdigit(ch))
+    if (std::isdigit(ch) || ch == '-')
     {
         s += ch;
     }
