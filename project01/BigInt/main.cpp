@@ -357,3 +357,96 @@ TEST_CASE("Substruction")
 
 
 }
+
+TEST_CASE("Input operator")
+{
+    ostringstream sout;
+    SUBCASE("correct input #1")
+    {
+        istringstream sinp("123");
+        BigInt x;
+        sinp >> x;
+        REQUIRE(sinp.eof());
+        REQUIRE(x == 123);
+    }
+
+    SUBCASE("correct input #2")
+    {
+        istringstream sinp("  123 ");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.good());
+        REQUIRE(x == 123);
+    }
+
+    SUBCASE("correct input #3")
+    {
+        istringstream sinp("123u123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.good());
+        REQUIRE(x == 123);
+        char ch;
+        sinp >> ch;
+        REQUIRE(ch == 'u');
+    }
+
+    SUBCASE("correct input #4")
+    {
+        istringstream sinp("  -123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.eof());
+        REQUIRE(x == -123);
+    }
+
+    SUBCASE("correct input #5")
+    {
+        istringstream sinp("  +123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.eof());
+        REQUIRE(x == 123);
+    }
+
+    SUBCASE("Incorrect input #1")
+    {
+        istringstream sinp("+  123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        REQUIRE(x == 0);
+    }
+
+    SUBCASE("Incorrect input #2")
+    {
+        istringstream sinp("++123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        REQUIRE(x == 0);
+    }
+
+    SUBCASE("Incorrect input #3")
+    {
+        istringstream sinp("hello");
+        BigInt x;
+        char ch;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        sinp.clear();
+        sinp >> ch;
+        REQUIRE(x == 0);
+        REQUIRE(ch == 'h');
+    }
+
+    SUBCASE("Incorrect input #4")
+    {
+        istringstream sinp("");
+        BigInt x;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        REQUIRE(sinp.eof());
+        REQUIRE(x == 0);
+    }
+}
