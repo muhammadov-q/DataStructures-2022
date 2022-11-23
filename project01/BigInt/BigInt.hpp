@@ -55,6 +55,27 @@ public:
         }
     }
 
+    static int cmpAbsVal(const BigInt &x, const BigInt &y)
+    {
+        if (x.mDigits.size() < y.mDigits.size())
+        {
+            return -1;
+        }
+        if (x.mDigits.size() > y.mDigits.size())
+        {
+            return 1;
+        }
+
+        for (size_t i = 0; i < x.mDigits.size(); i++)
+        {
+            if (x.mDigits[i] != y.mDigits[i])
+            {
+                return x.mDigits[i] - y.mDigits[i];
+            }
+        }
+        return 0;
+    }
+
     static BigInt addAbsValues(const BigInt &x, const BigInt &y) 
     {
         auto itX = x.mDigits.rbegin();   
@@ -96,35 +117,41 @@ public:
 
     static BigInt subtractAbsVal(const BigInt &x, const BigInt &y)
     {
-        BigInt z;
-        z.mDigits.clear();
+        auto itX = x.mDigits.rbegin();
 
-        auto itX = x.mDigits.rbegin();   
-        auto itY = y.mDigits.rbegin();  
+        BigInt z;
+        z.mDigits.resize(x.mDigits.size());
+        auto itZ = z.mDigits.rbegin();
 
         int borrow = 0;
-        while (itX != x.mDigits.rend())
+        for (auto itY = y.mDigits.rbegin(); itY != y.mDigits.rend(); ++itX, ++itY, ++itZ)
         {
-            int dif = *itX - borrow;
-            itX++;
-
-            if (itY != y.mDigits.rend())
+            int diff = *itX - borrow - *itY;
+            if (diff < 0)
             {
-                dif -= *itY;
-                itY++;
-            }
-
-            if (dif < 0)
-            {
-                dif += 10;
+                diff += 10;
                 borrow = 1;
             }
             else
             {
                 borrow = 0;
             }
+            *itZ = diff;
+        }
 
-            z.mDigits.push_back(dif);
+        for (; borrow != 0; ++itX, ++itZ)
+        {
+            int diff = *itX - borrow;
+            if (diff < 0)
+            {
+                diff += 10;
+                borrow = 1;
+            }
+            else
+            {
+                borrow = 0;
+            }
+            *itZ = diff;
         }
 
         while (z.mDigits.size() > 1 && z.mDigits.front() == 0)
@@ -132,7 +159,6 @@ public:
             z.mDigits.erase(z.mDigits.begin());
         }
 
-        std::reverse(z.mDigits.begin(), z.mDigits.end());
         return z;
     }
 
@@ -220,17 +246,9 @@ inline BigInt operator+(const BigInt &a, const BigInt &b)
         return z; 
     }
 
-    if ((!a.mIsNegative && b.mIsNegative) || (a.mIsNegative && !b.mIsNegative))
+    if (!a.mIsNegative && b.mIsNegative)
     {
-        if (a > b)
-        {
-            return BigInt::subtractAbsVal(a, b);
-        }
-        else
-        {
-            return BigInt::subtractAbsVal(b, a);
-        }
-        
+        //TODO
     } 
 
     throw std::runtime_error("not implemented yet");
@@ -238,9 +256,31 @@ inline BigInt operator+(const BigInt &a, const BigInt &b)
 
 inline BigInt operator-(const BigInt &a, const BigInt &b)
 {
+    if (!a.mIsNegative && b.mIsNegative)
+    {
+       return BigInt::addAbsValues(a, b);
+    }  
+
+    if (a.mIsNegative && !b.mIsNegative)
+    {
+        BigInt z = BigInt::addAbsValues(a, b);
+        z.mIsNegative = true;
+        return z;
+    }
+
     if (!a.mIsNegative && !b.mIsNegative)
     {
-       return BigInt::subtractAbsVal(a, b);
-    }  
-    //TODO
+       int cmp = BigInt::cmpAbsVal(a, b);
+       if (cmp >= 0)
+       {
+            return BigInt::subtractAbsVal(a, b);
+       }
+    }
+
+    if (a.mIsNegative && b.mIsNegative)
+    {
+        //TODO
+    }
+
+    throw std::runtime_error("not implemented yet");
 }
