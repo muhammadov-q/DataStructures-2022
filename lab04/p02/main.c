@@ -6,7 +6,7 @@ int main(void)
 {
     int a[N];
 
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < N; ++i)
     {
         scanf("%d", &a[i]);
     }
@@ -23,12 +23,12 @@ int main(void)
     {
         sum += a[i];
     }
-    printf("Sum of elments: %d\n", sum);
+    printf("Sum of elements: %d\n", sum);
 
     int sum2 = 0;
     for (int *p = a; p != a + N; ++p)
     {
         sum2 += *p;
     }
-    printf("Sum of elments: %d\n", sum2);
+    printf("Sum of elements: %d\n", sum2);
 }
