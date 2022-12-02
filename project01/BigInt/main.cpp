@@ -306,22 +306,29 @@ TEST_CASE("Addition")
         REQUIRE(sout.str() == "-252");
     }
     
-    // SUBCASE("Positive + negative")
-    // {
-    //     BigInt x("193");
-    //     BigInt y("-10");
-    //     sout << x + y;
-    //     REQUIRE(sout.str() == "183");
-    // }
+    SUBCASE("Positive + negative")
+    {
+        BigInt x("193");
+        BigInt y("-10");
+        sout << x + y;
+        REQUIRE(sout.str() == "183");
 
-    // SUBCASE("negative + Positive")
-    // {
-    //     BigInt x("-10");
-    //     BigInt y("193");
-    //     sout << x + y;
-    //     REQUIRE(sout.str() == "183");
-    // }
-    
+        BigInt x1(100);
+        BigInt y1(-200);
+        REQUIRE(x1 + y1 == 100 - 200);
+    }
+
+    SUBCASE("negative + Positive")
+    {
+        BigInt x("-10");
+        BigInt y("193");
+        sout << x + y;
+        REQUIRE(sout.str() == "183");
+
+        BigInt x1(-100);
+        BigInt y1(99);
+        REQUIRE(x1 + y1 == 99 - 100);
+    }
 }
 
 TEST_CASE("Substruction")
@@ -340,6 +347,10 @@ TEST_CASE("Substruction")
         BigInt x2(1000);
         BigInt y2(1);
         REQUIRE(x2 - y2 == 1000 - 1);
+
+        BigInt x3(1);
+        BigInt y3(100);
+        REQUIRE(x3 - y3 == 1 - 100);
     }
     
     SUBCASE("Positive - negative")
@@ -352,10 +363,15 @@ TEST_CASE("Substruction")
 
     SUBCASE("negative - negative")
     {
-        //TODO
+        BigInt x("-10");
+        BigInt y("-12");
+        sout << x - y;
+        REQUIRE(sout.str() == "2");
+
+        BigInt x1(-20);
+        BigInt y1(-10);
+        REQUIRE(x1 - y1 == 10 - 20);
     }
-
-
 }
 
 TEST_CASE("Input operator")

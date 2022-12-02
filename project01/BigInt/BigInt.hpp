@@ -116,7 +116,7 @@ public:
         return z;
     }
 
-    static BigInt subtractAbsVal(const BigInt &x, const BigInt &y)
+    static BigInt subAbsVal(const BigInt &x, const BigInt &y)
     {
         auto itX = x.mDigits.rbegin();
 
@@ -140,7 +140,8 @@ public:
             *itZ = diff;
         }
 
-        for (; borrow != 0; ++itX, ++itZ)
+        //for (; borrow != 0; ++itX, ++itZ)
+        for (; itX != x.mDigits.rend(); ++itX, ++itZ)
         {
             int diff = *itX - borrow;
             if (diff < 0)
@@ -155,12 +156,26 @@ public:
             *itZ = diff;
         }
 
-        while (z.mDigits.size() > 1 && z.mDigits.front() == 0)
-        {
-            z.mDigits.erase(z.mDigits.begin());
-        }
+        z.eraseLeadingZeros();
 
         return z;
+    }
+
+    // O(n)
+    void eraseLeadingZeros()
+    {
+        auto it = mDigits.begin();
+        while (it + 1 != mDigits.end() && *it == 0)
+        {
+            ++it;
+        }
+        mDigits.erase(mDigits.begin(), it); 
+
+        // O(n * n)
+        // while (z.mDigits.size() > 1 && z.mDigits.front() == 0)
+        // {
+        //     z.mDigits.erase(z.mDigits.begin());
+        // }
     }
 
     BigInt(long long x)
@@ -281,8 +296,33 @@ inline BigInt operator+(const BigInt &a, const BigInt &b)
 
     if (!a.mIsNegative && b.mIsNegative)
     {
-        //TODO
+        int cmp = BigInt::cmpAbsVal(a, b);
+        if (cmp >= 0)
+        {
+            return BigInt::subAbsVal(a, b);
+        }
+        else
+        {
+            BigInt z = BigInt::subAbsVal(b, a);
+            z.mIsNegative = true;
+            return z;
+        }
     } 
+
+    if (a.mIsNegative && !b.mIsNegative)
+    {
+        int cmp = BigInt::cmpAbsVal(a, b);
+        if (cmp >= 0)
+        {
+            BigInt z = BigInt::subAbsVal(a, b);
+            z.mIsNegative = true;
+            return z;
+        }
+        else
+        {
+            return BigInt::subAbsVal(b, a);
+        }   
+    }
 
     throw std::runtime_error("not implemented yet");
 }
@@ -306,13 +346,30 @@ inline BigInt operator-(const BigInt &a, const BigInt &b)
        int cmp = BigInt::cmpAbsVal(a, b);
        if (cmp >= 0)
        {
-            return BigInt::subtractAbsVal(a, b);
+            return BigInt::subAbsVal(a, b);
+       }
+       else
+       {
+            BigInt z = BigInt::subAbsVal(b, a);
+            z.mIsNegative = true;
+            return z;
        }
     }
 
     if (a.mIsNegative && b.mIsNegative)
     {
-        //TODO
+        int cmp = BigInt::cmpAbsVal(a, b);
+        if (cmp >= 0)
+        {
+            BigInt z = BigInt::subAbsVal(a, b);
+            z.mIsNegative = true;
+            return z;
+        }
+        else
+       {
+          return BigInt::subAbsVal(b, a);   
+       }
+
     }
 
     throw std::runtime_error("not implemented yet");
