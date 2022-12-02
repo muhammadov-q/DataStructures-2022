@@ -389,7 +389,7 @@ TEST_CASE("Input operator")
     SUBCASE("correct input #2")
     {
         istringstream sinp("  123 ");
-        int x;
+        BigInt x;
         sinp >> x;
         REQUIRE(sinp.good());
         REQUIRE(x == 123);
@@ -398,12 +398,11 @@ TEST_CASE("Input operator")
     SUBCASE("correct input #3")
     {
         istringstream sinp("123u123");
-        int x;
-        sinp >> x;
+        BigInt x;
+        char ch;
+        sinp >> x >> ch;
         REQUIRE(sinp.good());
         REQUIRE(x == 123);
-        char ch;
-        sinp >> ch;
         REQUIRE(ch == 'u');
     }
 
@@ -418,17 +417,26 @@ TEST_CASE("Input operator")
 
     SUBCASE("correct input #5")
     {
-        istringstream sinp("  +123");
+        istringstream sinp("  +000000123");
         BigInt x;
         sinp >> x;
         REQUIRE(sinp.eof());
         REQUIRE(x == 123);
     }
 
+    SUBCASE("correct input #6")
+    {
+        istringstream sinp("-0000000");
+        BigInt x;
+        sinp >> x;
+        REQUIRE(sinp.eof());
+        REQUIRE(x == 0);
+    }
+
     SUBCASE("Incorrect input #1")
     {
         istringstream sinp("+  123");
-        int x;
+        BigInt x;
         sinp >> x;
         REQUIRE(sinp.fail());
         REQUIRE(x == 0);
@@ -437,7 +445,7 @@ TEST_CASE("Input operator")
     SUBCASE("Incorrect input #2")
     {
         istringstream sinp("++123");
-        int x;
+        BigInt x;
         sinp >> x;
         REQUIRE(sinp.fail());
         REQUIRE(x == 0);

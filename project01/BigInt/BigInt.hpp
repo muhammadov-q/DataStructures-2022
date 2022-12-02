@@ -227,6 +227,17 @@ inline std::istream &operator>>(std::istream &inp, BigInt &x)
         s += ch;
     }
 
+    if (!inp.eof())
+    {
+        inp.putback(ch);
+    }
+
+    if (s.empty())
+    {
+        inp.setstate(std::ios_base::failbit);
+        return inp;
+    }
+
     x = BigInt(s);
 
     return inp;
