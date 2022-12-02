@@ -385,3 +385,13 @@ inline BigInt operator-(const BigInt &a, const BigInt &b)
 
     throw std::runtime_error("not implemented yet");
 }
+
+void operator+=(BigInt &a, const BigInt &b)
+{
+    a = a + b;
+}
+
+void operator-=(BigInt &a, const BigInt &b)
+{
+    a = a - b;
+}

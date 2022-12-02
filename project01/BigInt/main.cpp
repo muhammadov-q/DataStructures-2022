@@ -374,6 +374,19 @@ TEST_CASE("Substruction")
     }
 }
 
+TEST_CASE(" -= and +=")
+{
+    BigInt x(100);
+    BigInt y(10);
+    x -= y;
+    REQUIRE(x == 90);
+    
+    BigInt x1(20);
+    BigInt y1(10);
+    x1 += y1;
+    REQUIRE(x1 == 30);
+}
+
 TEST_CASE("Input operator")
 {
     ostringstream sout;
