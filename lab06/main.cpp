@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <tuple>
+#include <iomanip>
 
 #include "../au/algol.hpp"
 
@@ -82,8 +83,43 @@ void p0102()
     }
 }
 
+void p06()
+{
+    vector<Student> students;
+
+    string name;
+    double gpa;
+    while (cin >> name >> gpa)
+    {
+        //students.push_back(Student(name, gpa));
+        students.emplace_back(name, gpa);
+    }
+
+    cout << "-------" << endl;
+    sort(begin(students), end(students), [](const Student &s1, const Student &s2)
+         { return s1.mName < s2.mName; });
+
+    cout << fixed << showpoint << setprecision(2);
+    for (const auto &s : students)
+    {
+        cout << "{" << s.mName << ", " << s.mGpa << "}" << endl;
+    }
+
+    cout << "-------" << endl;
+    sort(begin(students), end(students), [](Student &s1, const Student &s2) {return s1.mGpa > s2.mGpa; });
+
+    for (const auto &s : students)
+    {
+        cout << "{" << s.mName << ", " << s.mGpa << "}" << endl;
+    }
+}
+
+
 int main()
 {
     //p0101();
-    p0102();
+    //p0102();
+
+    p06();
+
 }
