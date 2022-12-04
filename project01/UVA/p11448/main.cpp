@@ -388,11 +388,12 @@ int main()
 {
     iostream::sync_with_stdio(false);
     
-    int a, b, tc;
+    string a, b; 
+    int tc;
     cin >> tc;
     while (tc--)
     {
         cin >> a >> b;
-        cout << (BigInt(a) - BigInt(b)) << endl;
+        cout << (BigInt(a) - BigInt(b)) << "\n";
     }
 }
