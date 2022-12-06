@@ -19,7 +19,6 @@ int main()
             cin >> v[i];
         }
             
-
         //sorting with functor(lambda)
         sort(v.begin(), v.end(), [&](int a, int b)
              {
@@ -31,7 +30,7 @@ int main()
                      }
                      if (abs(a % 2) != 0 && abs(b % 2) == 0)
                      {
-                         return true;
+                        return true;
                      }
                      if (abs(a % 2) == 1 && abs(b % 2) == 1)
                      {
