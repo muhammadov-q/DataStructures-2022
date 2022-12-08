@@ -31,6 +31,28 @@ struct IsEven
     }
 };
 
+struct GreaterThan
+{
+    int mX;
+    GreaterThan(int x)
+        : mX(x)
+    {
+    }
+
+    bool operator()(int n) const
+    {
+        return n > mX;
+    }
+};
+
+struct CmpByGpa
+{
+    bool operator()(const Student &s1, Student &s2) const
+    {
+        return s1.mGpa < s2.mGpa;
+    }
+};
+
 void p0101()
 {
     int a[] = {3, 1, 20, 4, 7, 0, 5};
@@ -149,21 +171,6 @@ void p0202()
     }
 }
 
-struct GreaterThan
-{
-    int mX;
-    GreaterThan(int x)
-        : mX(x)
-    {
-    }
-
-    bool operator()(int n) const
-    {
-        return n > mX;
-    }
-};
-
-
 void p03()
 {
     vector<int> v = {3, 1, 20, 4, 7, 0, 5};
@@ -240,6 +247,85 @@ void p0402()
     }
 }
 
+void p0501()
+{
+    vector<Student> students;
+    string name;
+    double gpa;
+
+    while (cin >> name >> gpa)
+    {
+        students.emplace_back(name, gpa);
+    }
+
+    cout << "student with min name gpa" << endl;
+    auto it = min_element(begin(students), end(students), [](Student s, Student min)
+                          { return s.mGpa < min.mGpa; });
+
+    if (it != end(students))
+    {
+        cout << "index: " << it - begin(students) << endl;
+    }
+    else
+    {
+        cout << "not found" << endl;
+    }
+
+    cout << "student with min name (lexicographically)" << endl;
+    auto it2 = min_element(begin(students), end(students), [](Student s, Student min)
+                           { return s.mName < min.mName; });
+
+    if (it2 != end(students))
+    {
+
+        cout << "index: " << it2 - begin(students) << endl;
+    }
+    else
+    {
+        cout << "not found" << endl;
+    }
+}
+
+
+void p0502()
+{
+    vector<Student> students;
+    string name;
+    double gpa;
+
+    while (cin >> name >> gpa)
+    {
+        students.emplace_back(name, gpa);
+    }
+
+    cout << "student with min name gpa" << endl;
+    auto it = auMinElement(begin(students), end(students), [](Student s, Student min)
+                           { return s.mGpa < min.mGpa; });
+
+    if (it != end(students))
+    {
+        cout << "index: " << it - begin(students) << endl;
+    }
+    else
+    {
+        cout << "not found" << endl;
+    }
+
+    cout << "student with min name (lexicographically)" << endl;
+    auto it2 = auMinElement(begin(students), end(students), [](Student s, Student min)
+                            { return s.mName < min.mName; });
+
+    if (it2 != end(students))
+    {
+
+        cout << "index: " << it2 - begin(students) << endl;
+    }
+    else
+    {
+        cout << "not found" << endl;
+    }
+}
+
 void p06()
 {
     vector<Student> students;
@@ -280,11 +366,13 @@ int main()
     // p0201();
     // p0202();
 
-    //p0401();
-    p0402();
-
     //p03();
 
+    //p0401();
+    //p0402();
+
+    //p0501();
+    //p0502();
     
     // p06();
 }
