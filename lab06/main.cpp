@@ -326,6 +326,37 @@ void p0502()
     }
 }
 
+void p06()
+{
+    vector<Student> students;
+
+    string name;
+    double gpa;
+    while (cin >> name >> gpa)
+    {
+        //students.push_back(Student(name, gpa));
+        students.emplace_back(name, gpa);
+    }
+
+    cout << "-------" << endl;
+    sort(begin(students), end(students), [](const Student &s1, const Student &s2)
+         { return s1.mName < s2.mName; });
+
+    cout << fixed << showpoint << setprecision(2);
+    for (const auto &s : students)
+    {
+        cout << "{" << s.mName << ", " << s.mGpa << "}" << endl;
+    }
+
+    cout << "-------" << endl;
+    sort(begin(students), end(students), [](Student &s1, const Student &s2) {return s1.mGpa > s2.mGpa; });
+
+    for (const auto &s : students)
+    {
+        cout << "{" << s.mName << ", " << s.mGpa << "}" << endl;
+    }
+}
+
 void p07()
 {
     vector<Student> students = {
@@ -383,37 +414,26 @@ void p07()
     }
 }
 
-void p06()
+void p08()
 {
-    vector<Student> students;
-
+    vector<pair<string, double>> students;
     string name;
     double gpa;
+
     while (cin >> name >> gpa)
     {
-        //students.push_back(Student(name, gpa));
         students.emplace_back(name, gpa);
     }
 
-    cout << "-------" << endl;
-    sort(begin(students), end(students), [](const Student &s1, const Student &s2)
-         { return s1.mName < s2.mName; });
+    cout << "-------------" << endl;
 
-    cout << fixed << showpoint << setprecision(2);
-    for (const auto &s : students)
-    {
-        cout << "{" << s.mName << ", " << s.mGpa << "}" << endl;
-    }
-
-    cout << "-------" << endl;
-    sort(begin(students), end(students), [](Student &s1, const Student &s2) {return s1.mGpa > s2.mGpa; });
+    sort(begin(students), end(students));
 
     for (const auto &s : students)
     {
-        cout << "{" << s.mName << ", " << s.mGpa << "}" << endl;
+        cout << s.first << ", " << s.second << endl;
     }
 }
-
 
 int main()
 {
@@ -433,5 +453,7 @@ int main()
     
     // p06();
 
-    p07();
+    //p07();
+
+    p08();
 }
