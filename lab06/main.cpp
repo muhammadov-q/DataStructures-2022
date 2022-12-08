@@ -196,6 +196,50 @@ void p03()
     }
 }
 
+void p0401()
+{
+    vector<int> vc;
+    int x;
+                                   
+    while (cin >> x)
+    {
+        vc.push_back(x);
+    }
+
+    auto it = min_element(begin(vc), end(vc));
+
+    if (it != end(vc))
+    {
+        cout << "index of it: " << it - begin(vc) << endl;
+    }
+    else
+    {
+        cout << "not found" << endl;
+    }
+}
+
+void p0402()
+{
+    vector<int> vc;
+    int x;
+
+    while (cin >> x)
+    {
+        vc.push_back(x);
+    }
+
+    auto it = auMinElement(begin(vc), end(vc));
+
+    if (it != end(vc))
+    {
+        cout << "index of it: " << it - begin(vc) << endl;
+    }
+    else
+    {
+        cout << "not found" << endl;
+    }
+}
+
 void p06()
 {
     vector<Student> students;
@@ -236,8 +280,11 @@ int main()
     // p0201();
     // p0202();
 
+    //p0401();
+    p0402();
+
+    //p03();
+
+    
     // p06();
-
-    p03();
-
 }
