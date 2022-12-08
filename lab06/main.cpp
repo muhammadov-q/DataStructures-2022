@@ -497,6 +497,29 @@ void p1002()
     }
 }
 
+void p11()
+{
+    vector<int> v = {1, 4, 5, 10, 12, 20, 40, 45};
+    int x;
+
+    while (cin >> x)
+    {
+        auto it = lower_bound(begin(v), end(v), x);
+        if (it == end(v))
+        {
+            cout << "no element is equal or greater than " << x << endl;
+        }
+        else if (*it == x)
+        {
+            cout << "index of the first element equal to " << x << " is " << it - begin(v) << endl;
+        }
+        else
+        {
+            cout << "index of the first element greater than " << x << " is " << it - begin(v) << endl;
+        }
+    }
+}
+
 int main()
 {
     // p0101();
@@ -522,5 +545,7 @@ int main()
     //p09();
 
     //p1001();
-    p1002();
+    //p1002();
+
+    p11();
 }
