@@ -326,6 +326,63 @@ void p0502()
     }
 }
 
+void p07()
+{
+    vector<Student> students = {
+        {"C", 3.45},
+        {"Z", 4.00},
+        {"X", 4.00},
+        {"Y", 3.00},
+        {"W", 4.00},
+        {"E", 4.00},
+        {"R", 3.00},
+        {"T", 4.00},
+        {"D", 2.45},
+        {"A", 3.00},
+    };
+
+    cout << "------------- Regular sort -------------" << endl;
+
+    sort(begin(students), end(students), [](const Student &s1, const Student &s2)
+         { return s1.mName < s2.mName; });
+
+    cout << fixed << showpoint << setprecision(2);
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+
+    cout << "-------------" << endl;
+
+    sort(begin(students), end(students), [](const Student &s1, const Student &s2)
+         { return s1.mGpa < s2.mGpa; });
+
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+
+    cout << "------------- Stable sort -------------" << endl;
+
+    stable_sort(begin(students), end(students), [](const Student &s1, const Student &s2)
+                { return s1.mName < s2.mName; });
+
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+
+    cout << "-------------" << endl;
+
+    stable_sort(begin(students), end(students), [](const Student &s1, const Student &s2)
+                { return s1.mGpa < s2.mGpa; });
+
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+}
+
 void p06()
 {
     vector<Student> students;
@@ -375,4 +432,6 @@ int main()
     //p0502();
     
     // p06();
+
+    p07();
 }
