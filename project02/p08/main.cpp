@@ -7,19 +7,41 @@ using namespace std;
 
 void action01(vector<int> &v)
 {
-    for (int i = 0; i < sz(v); i++)
+    bool a = true;
+    for (int x : v)
     {
-        for (int j = 0; j < sz(v); j++)
+        int y = 7777 - x;
+        auto it = lower_bound(v.begin(), v.end(), y);
+
+        if (it != v.end())
         {
-            if (v[i] != v[j] && (v[i] + v[j] == 7777))
+            if (*it == y)
             {
-                cout << "yes";
-                goto found;
+                cout << "Yes\n";
+                a = false;
+                break;
             }
         }
     }
-    cout << "no" << '\n';
-    found: cout << '\n';
+
+    if (a)
+    {
+        cout << "No\n";
+    }
+
+    // for (int i = 0; i < sz(v); i++)
+    // {
+    //     for (int j = 0; j < sz(v); j++)
+    //     {
+    //         if (v[i] != v[j] && (v[i] + v[j] == 7777))
+    //         {
+    //             cout << "yes";
+    //             goto found;
+    //         }
+    //     }
+    // }
+    // cout << "no" << '\n';
+    // found: cout << '\n';
 }
 
 void action02(vector<int> &v)
