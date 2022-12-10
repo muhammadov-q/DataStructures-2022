@@ -13,13 +13,13 @@ void action01(vector<int> &v)
         {
             if (v[i] != v[j] && (v[i] + v[j] == 7777))
             {
-                cout << "yes" << "\n";
-                exit(1); 
+                cout << "yes";
+                goto found;
             }
         }
     }
-    cout << "no";
-
+    cout << "no" << '\n';
+    found: cout << '\n';
 }
 
 void action02(vector<int> &v)
@@ -46,7 +46,7 @@ void action03(vector<int> &v, int &n)
 
         if (it2 - it > n / 2)
         {
-            cout << *it;
+            cout << *it << endl;
             a = false;
             break;
         }
@@ -54,7 +54,7 @@ void action03(vector<int> &v, int &n)
 
     if (a)
     {
-        cout << -1;
+        cout << -1 << endl;
     }
         
 }
@@ -63,11 +63,11 @@ void action04(vector<int> &v, int &n)
 {
     if (n % 2 == 1)
     {
-        cout << v[n / 2];
+        cout << v[n / 2] << endl;
     } 
     else
     {
-        cout << v[n / 2 - 1] << " " << v[n / 2];
+        cout << v[n / 2 - 1] << " " << v[n / 2] << endl;
     } 
 }
 
@@ -80,6 +80,7 @@ void action05(vector<int> &v)
             cout << v[i] << " ";
         }
     }
+    cout << endl;
 }
 
 int main()
@@ -107,5 +108,4 @@ int main()
         case 4: action04(v, n); break;
         case 5: action05(v); break;
     }
-    cout << "\n";
 }
