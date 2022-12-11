@@ -53,6 +53,8 @@
         "tuple": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "optional": "cpp",
+        "variant": "cpp"
     }
 }
