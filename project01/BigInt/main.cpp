@@ -513,3 +513,12 @@ TEST_CASE("Input operator")
         REQUIRE(x == 0);
     }
 }
+
+TEST_CASE("abs() function")
+{
+    BigInt x(-20);
+    REQUIRE(abs(x) == 20);
+
+    BigInt y(20);
+    REQUIRE(abs(y) == 20);
+}

@@ -11,14 +11,17 @@ class BigInt
 {
     friend inline std::ostream &operator<<(std::ostream &out, const BigInt &x);
     friend inline std::istream &operator>>(std::istream &inp, BigInt &x);
+    friend BigInt abs(BigInt x);
+    
+    friend BigInt operator-(const BigInt &a, const BigInt &b);
+    friend BigInt operator+(const BigInt &x, const BigInt &y);
+
     friend bool operator==(const BigInt &x, const BigInt &y);
     friend bool operator!=(const BigInt &x, const BigInt &y);
     friend bool operator<(const BigInt &x, const BigInt &y);
     friend bool operator>(const BigInt &x, const BigInt &y);
     friend bool operator<=(const BigInt &x, const BigInt &y);
     friend bool operator>=(const BigInt &x, const BigInt &y);
-    friend BigInt operator-(const BigInt &a, const BigInt &b);
-    friend BigInt operator+(const BigInt &x, const BigInt &y);
    
     std::vector<int> mDigits;
     bool mIsNegative;
@@ -421,4 +424,13 @@ BigInt operator--(BigInt &a, int)
     BigInt x = a;
     a = a - 1;
     return x;
+}
+
+BigInt abs(const BigInt x)
+{
+    BigInt y;
+    y.mDigits = x.mDigits;
+    y.mIsNegative = false;
+    
+    return y;
 }
