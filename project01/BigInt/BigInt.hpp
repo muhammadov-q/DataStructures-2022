@@ -12,9 +12,10 @@ class BigInt
     friend inline std::ostream &operator<<(std::ostream &out, const BigInt &x);
     friend inline std::istream &operator>>(std::istream &inp, BigInt &x);
     friend BigInt abs(BigInt x);
-    
-    friend BigInt operator-(const BigInt &a, const BigInt &b);
+
+    friend BigInt operator-(const BigInt &x, const BigInt &y);
     friend BigInt operator+(const BigInt &x, const BigInt &y);
+    friend BigInt operator*(const BigInt &x, const BigInt &y);
 
     friend bool operator==(const BigInt &x, const BigInt &y);
     friend bool operator!=(const BigInt &x, const BigInt &y);
@@ -247,55 +248,6 @@ inline std::istream &operator>>(std::istream &inp, BigInt &x)
     return inp;
 }
 
-inline bool operator==(const BigInt &x, const BigInt &y)
-{
-    return x.mIsNegative == y.mIsNegative && x.mDigits ==  y.mDigits;
-}
-
-inline bool operator!=(const BigInt &x, const BigInt &y)
-{
-    return !(x == y);
-}
-
-inline bool operator<(const BigInt &x, const BigInt &y)
-{
-    if (x.mIsNegative && !y.mIsNegative)
-    {
-        return true;
-    }
-
-    if (!x.mIsNegative && y.mIsNegative)
-    {
-        return false;
-    }
-
-    if (!x.mIsNegative && !y.mIsNegative)
-    {
-        return x.mDigits.size() < y.mDigits.size() ||
-            (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits);
-    }
-    
-    return !(x.mDigits.size() < y.mDigits.size() ||
-        (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits)); 
-}
-
-inline bool operator>(const BigInt &x, const BigInt &y)
-{
-    return y < x;
-}
-
-inline bool operator<=(const BigInt &x, const BigInt &y)
-{
-    return (x < y || x == y);
-    //!(y < x)
-}
-
-bool operator>=(const BigInt &x, const BigInt &y)
-{
-    return (y < x || y == x);
-    //(!(x < y))
-}
-
 inline BigInt operator+(const BigInt &a, const BigInt &b)
 {
     if (!a.mIsNegative && !b.mIsNegative)
@@ -342,52 +294,98 @@ inline BigInt operator+(const BigInt &a, const BigInt &b)
     throw std::runtime_error("not implemented yet");
 }
 
-inline BigInt operator-(const BigInt &a, const BigInt &b)
+inline BigInt operator-(const BigInt &x, const BigInt &y)
 {
-    if (!a.mIsNegative && b.mIsNegative)
+    if (!x.mIsNegative && y.mIsNegative)
     {
-       return BigInt::addAbsValues(a, b);
+       return BigInt::addAbsValues(x, y);
     }  
 
-    if (a.mIsNegative && !b.mIsNegative)
+    if (x.mIsNegative && !y.mIsNegative)
     {
-        BigInt z = BigInt::addAbsValues(a, b);
+        BigInt z = BigInt::addAbsValues(x, y);
         z.mIsNegative = true;
         return z;
     }
 
-    if (!a.mIsNegative && !b.mIsNegative)
+    if (!x.mIsNegative && !y.mIsNegative)
     {
-       int cmp = BigInt::cmpAbsVal(a, b);
+       int cmp = BigInt::cmpAbsVal(x, y);
        if (cmp >= 0)
        {
-            return BigInt::subAbsVal(a, b);
+            return BigInt::subAbsVal(x, y);
        }
        else
        {
-            BigInt z = BigInt::subAbsVal(b, a);
+            BigInt z = BigInt::subAbsVal(y, x);
             z.mIsNegative = true;
             return z;
        }
     }
 
-    if (a.mIsNegative && b.mIsNegative)
+    if (x.mIsNegative && y.mIsNegative)
     {
-        int cmp = BigInt::cmpAbsVal(a, b);
+        int cmp = BigInt::cmpAbsVal(x, y);
         if (cmp >= 0)
         {
-            BigInt z = BigInt::subAbsVal(a, b);
+            BigInt z = BigInt::subAbsVal(x, y);
             z.mIsNegative = true;
             return z;
         }
         else
        {
-          return BigInt::subAbsVal(b, a);   
+          return BigInt::subAbsVal(y, x);   
        }
-
     }
 
     throw std::runtime_error("not implemented yet");
+}
+
+inline bool operator<(const BigInt &x, const BigInt &y)
+{
+    if (x.mIsNegative && !y.mIsNegative)
+    {
+        return true;
+    }
+
+    if (!x.mIsNegative && y.mIsNegative)
+    {
+        return false;
+    }
+
+    if (!x.mIsNegative && !y.mIsNegative)
+    {
+        return x.mDigits.size() < y.mDigits.size() ||
+            (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits);
+    }
+    
+    return !(x.mDigits.size() < y.mDigits.size() ||
+        (x.mDigits.size() == y.mDigits.size() && x.mDigits < y.mDigits)); 
+}
+
+inline bool operator>(const BigInt &x, const BigInt &y)
+{
+    return y < x;
+}
+
+inline bool operator<=(const BigInt &x, const BigInt &y)
+{
+    return (x < y || x == y);
+}
+
+bool operator>=(const BigInt &x, const BigInt &y)
+{
+    return (y < x || y == x);
+}
+
+inline bool operator==(const BigInt &x, const BigInt &y)
+{
+    return x.mIsNegative == y.mIsNegative && x.mDigits ==  y.mDigits;
+}
+
+inline bool operator!=(const BigInt &x, const BigInt &y)
+{
+    return !(x == y);
 }
 
 void operator+=(BigInt &a, const BigInt &b)
