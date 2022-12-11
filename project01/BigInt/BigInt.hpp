@@ -15,7 +15,6 @@ class BigInt
 
     friend BigInt operator-(const BigInt &x, const BigInt &y);
     friend BigInt operator+(const BigInt &x, const BigInt &y);
-    friend BigInt operator*(const BigInt &x, const BigInt &y);
 
     friend bool operator==(const BigInt &x, const BigInt &y);
     friend bool operator!=(const BigInt &x, const BigInt &y);
@@ -27,62 +26,7 @@ class BigInt
     std::vector<int> mDigits;
     bool mIsNegative;
 
-public:
-    BigInt()
-        : mIsNegative(false)
-    {
-        mDigits.push_back(0);
-    }
-
-    BigInt(const std::string &s)
-        : mIsNegative(false)
-    {
-        size_t i = 0;
-        if( !s.empty() && (s[i] == '-' || s[i] == '+'))
-        {
-            mIsNegative = s[i] == '-';
-            ++i;
-        }
-        while(i+1 < s.size() && s[i] == '0')
-        {
-            ++i;
-        }
-        for (;i < s.size() && isdigit(s[i]); i++)
-        {
-            mDigits.push_back(s[i] - '0');
-        }
-        if (i < s.size() || mDigits.empty())
-        {
-            throw std::runtime_error("BigInt: Incorrect string representation");
-        }
-        if (mDigits.size() == 1 && mDigits[0] == 0)
-        {
-            mIsNegative = false;
-        }
-    }
-
-    static int cmpAbsVal(const BigInt &x, const BigInt &y)
-    {
-        if (x.mDigits.size() < y.mDigits.size())
-        {
-            return -1;
-        }
-        if (x.mDigits.size() > y.mDigits.size())
-        {
-            return 1;
-        }
-
-        for (size_t i = 0; i < x.mDigits.size(); i++)
-        {
-            if (x.mDigits[i] != y.mDigits[i])
-            {
-                return x.mDigits[i] - y.mDigits[i];
-            }
-        }
-        return 0;
-    }
-
-    static BigInt addAbsValues(const BigInt &x, const BigInt &y) 
+        static BigInt addAbsValues(const BigInt &x, const BigInt &y) 
     {
         auto itX = x.mDigits.rbegin();   
         auto itY = y.mDigits.rbegin();  
@@ -166,7 +110,6 @@ public:
         return z;
     }
 
-    // O(n)
     void eraseLeadingZeros()
     {
         auto it = mDigits.begin();
@@ -181,6 +124,61 @@ public:
         // {
         //     z.mDigits.erase(z.mDigits.begin());
         // }
+    }
+
+    static int cmpAbsVal(const BigInt &x, const BigInt &y)
+    {
+        if (x.mDigits.size() < y.mDigits.size())
+        {
+            return -1;
+        }
+        if (x.mDigits.size() > y.mDigits.size())
+        {
+            return 1;
+        }
+
+        for (size_t i = 0; i < x.mDigits.size(); i++)
+        {
+            if (x.mDigits[i] != y.mDigits[i])
+            {
+                return x.mDigits[i] - y.mDigits[i];
+            }
+        }
+        return 0;
+    }
+
+public:
+    BigInt()
+        : mIsNegative(false)
+    {
+        mDigits.push_back(0);
+    }
+
+    explicit BigInt(const std::string &s)
+        : mIsNegative(false)
+    {
+        size_t i = 0;
+        if( !s.empty() && (s[i] == '-' || s[i] == '+'))
+        {
+            mIsNegative = s[i] == '-';
+            ++i;
+        }
+        while(i+1 < s.size() && s[i] == '0')
+        {
+            ++i;
+        }
+        for (;i < s.size() && isdigit(s[i]); i++)
+        {
+            mDigits.push_back(s[i] - '0');
+        }
+        if (i < s.size() || mDigits.empty())
+        {
+            throw std::runtime_error("BigInt: Incorrect string representation");
+        }
+        if (mDigits.size() == 1 && mDigits[0] == 0)
+        {
+            mIsNegative = false;
+        }
     }
 
     BigInt(long long x)
