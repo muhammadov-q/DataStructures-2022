@@ -17,8 +17,9 @@ class BigInt
     friend bool operator>(const BigInt &x, const BigInt &y);
     friend bool operator<=(const BigInt &x, const BigInt &y);
     friend bool operator>=(const BigInt &x, const BigInt &y);
-    friend inline BigInt operator-(const BigInt &a, const BigInt &b);
-    friend inline BigInt operator+(const BigInt &x, const BigInt &y);
+    friend BigInt operator-(const BigInt &a, const BigInt &b);
+    friend BigInt operator+(const BigInt &x, const BigInt &y);
+   
     std::vector<int> mDigits;
     bool mIsNegative;
 
@@ -394,4 +395,30 @@ void operator+=(BigInt &a, const BigInt &b)
 void operator-=(BigInt &a, const BigInt &b)
 {
     a = a - b;
+}
+
+BigInt &operator++(BigInt &a)
+{
+    a += 1;
+    return a;
+}
+
+BigInt operator++(BigInt &a, int)
+{
+    BigInt x = a;
+    a += 1;
+    return x;
+}
+
+BigInt operator--(BigInt &a)
+{
+    a = a - 1;
+    return a;
+}
+
+BigInt operator--(BigInt &a, int)
+{
+    BigInt x = a;
+    a = a - 1;
+    return x;
 }

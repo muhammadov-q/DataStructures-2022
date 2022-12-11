@@ -387,6 +387,32 @@ TEST_CASE(" -= and +=")
     REQUIRE(x1 == 30);
 }
 
+
+TEST_CASE(" -- and ++")
+{
+    SUBCASE("--")
+    {
+        BigInt x(100);
+        x--;
+        REQUIRE(x == 99);
+    
+        BigInt x3(1);
+        --x3;
+        REQUIRE(x3 == 0);
+    }
+
+    SUBCASE("++")
+    {
+        BigInt x1(20);
+        x1++;
+        REQUIRE(x1 == 21);
+
+        BigInt x2(0);
+        ++x2;
+        REQUIRE(x2 == 1);
+    }
+}
+
 TEST_CASE("Input operator")
 {
     ostringstream sout;
